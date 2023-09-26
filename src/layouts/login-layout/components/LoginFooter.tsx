@@ -21,8 +21,8 @@ function LoginFooter() {
           flexDirection: "column-reverse",
         }}
       >
-        <Typography>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        <Typography color={"white"}>
+          جميع الحقوق محفوظة - مكتب ابعاد الرؤية للاستشارات الهندسية
         </Typography>
       </Stack>
     </Stack>

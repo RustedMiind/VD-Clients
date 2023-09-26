@@ -15,16 +15,21 @@ import {
 } from "@mui/material";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { useState } from "react";
+import { isStringAllNumbers } from "../../../functions/isStringAllNumbers";
 
 function Login() {
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const [visible, setVisible] = useState(false);
+  const [nationalNumber, setNationalNumber] = useState("");
+  const [otp, setOtp] = useState("");
 
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
+  function handleNationalIdChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const condition = isStringAllNumbers(e.target.value);
+    if (condition) setNationalNumber(e.target.value);
+  }
+  function handleOtpChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const condition = e.target.value.length <= 6;
+    if (condition) setOtp(e.target.value);
+  }
 
   return (
     <Stack width={"100%"} component={"form"}>
@@ -32,47 +37,50 @@ function Login() {
         تسجيل الدخول
       </Typography>
       <Stack spacing={2}>
-        <TextField name="nationalId" label="رقم الهوية" />
-        {/* <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-password">
-            كلمة السر
-          </InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-password"
-            type={showPassword ? "text" : "password"}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-            label="password"
-          />
-        </FormControl> */}
-        {/* <Stack
-          direction={"row"}
-          width={"100%"}
-          justifyContent={"space-between"}
-          alignItems={"center"}
-          flexWrap={"wrap"}
+        <TextField
+          disabled={visible}
+          value={nationalNumber}
+          onChange={handleNationalIdChange}
+          name="nationalId"
+          label="رقم الهوية"
+        />
+        <Stack
+          sx={{
+            transition: "500ms",
+            // py: 1,
+            ...(visible
+              ? {
+                  maxHeight: "100px",
+                  opacity: 1,
+                  pointerEvents: "all",
+                }
+              : {
+                  maxHeight: 0,
+                  opacity: 0,
+                  pointerEvents: "none",
+                }),
+          }}
         >
-          <FormGroup>
-            <FormControlLabel control={<Checkbox />} label="حفظ كلمة السر" />
-          </FormGroup>
+          <TextField
+            value={otp}
+            onChange={handleOtpChange}
+            name="nationalId"
+            label="رقم التفعيل المرسل علي الهاتف"
+          />
           <Typography>
-            نسيت كلمة المرور؟{" "}
-            <Link fontWeight={"bold"} color={"text.primary"} href="#">
-              أعد تعيين كلمة السر
-            </Link>
+            لم يصلك كود الدخول؟
+            <Button>اعد الارسال</Button>
           </Typography>
-        </Stack> */}
-        <Button variant="contained" size="large">
+        </Stack>
+        <Button
+          variant="contained"
+          size="large"
+          onClick={() => {
+            setTimeout(() => {
+              setVisible(!visible);
+            }, 500);
+          }}
+        >
           تسجيل الدخول
         </Button>
       </Stack>

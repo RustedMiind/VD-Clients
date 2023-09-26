@@ -11,6 +11,8 @@ const theme = createTheme({
   palette: {
     primary: {
       main: "#F19B02",
+      dark: "#d18400",
+      contrastText: "#FFFFFF",
     },
     secondary: {
       main: "#F19B02",
@@ -56,14 +58,7 @@ function App() {
       <Stack className="App">
         <Routes>
           <Route path="/" element={<>Main Page</>} />
-          <Route
-            path="/login"
-            element={
-              <LoginLayout>
-                <Handler />
-              </LoginLayout>
-            }
-          />
+          <Route path="/auth/*" element={<LoginLayout />} />
         </Routes>
       </Stack>
     </ThemeProvider>
