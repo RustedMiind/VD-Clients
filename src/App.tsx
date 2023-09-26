@@ -3,25 +3,24 @@ import "./assets/fonts/include.scss";
 import "./App.scss";
 import { Routes, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material";
-import LoginLayout from "./layouts/LoginLayout";
+import LoginLayout from "./layouts/login-layout/LoginLayout";
+import Handler from "./layouts/login-layout/steps/Handler";
 
 const theme = createTheme({
   direction: "rtl",
   palette: {
     primary: {
-      main: "#004693",
+      main: "#F19B02",
     },
     secondary: {
       main: "#F19B02",
-      // main: colors.deepOrange[500],
     },
     background: {
       paper: "#FFFFFF",
       default: "#F1F1F1",
     },
     text: {
-      primary: "#ef5350",
-      secondary: "#004693",
+      primary: "#004693",
     },
   },
   typography: {
@@ -61,7 +60,7 @@ function App() {
             path="/login"
             element={
               <LoginLayout>
-                <div>lorem</div>
+                <Handler />
               </LoginLayout>
             }
           />

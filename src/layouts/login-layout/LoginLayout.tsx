@@ -1,7 +1,7 @@
 import { Stack, Typography } from "@mui/material";
 import LoginHeader from "./components/LoginHeader";
 import LoginFooter from "./components/LoginFooter";
-import bg from "../assets/images/login-bg.png";
+import bg from "../../assets/images/login-bg.png";
 
 function LoginLayout(props: PropsType) {
   return (
@@ -20,7 +20,7 @@ function LoginLayout(props: PropsType) {
       <Stack
         sx={{
           width: "100%",
-          backgroundColor: "rgb(255,255,255,0.8)",
+          backgroundColor: "rgb(255,255,255,0.9)",
           px: 1,
           py: 2,
           // maxHeight: "70%",

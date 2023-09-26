@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import Stack from "@mui/material/Stack";
-import logo from "../../assets/images/logo-vision.png";
-import logo2 from "../../assets/images/jeddah-logo.png";
+import logo from "../../../assets/images/logo-vision.png";
+import logo2 from "../../../assets/images/jeddah-logo.png";
 
 function LogoContainer(props: ContainerPropsType) {
   return (
