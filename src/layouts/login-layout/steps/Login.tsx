@@ -13,12 +13,14 @@ import {
   IconButton,
   Button,
 } from "@mui/material";
+import SaveIcon from "@mui/icons-material/Save";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { useState } from "react";
 import { isStringAllNumbers } from "../../../functions/isStringAllNumbers";
 
 function Login() {
-  const [visible, setVisible] = useState(false);
+  const [state, setState] = useState<"show" | "loading" | "hide">("hide");
   const [nationalNumber, setNationalNumber] = useState("");
   const [otp, setOtp] = useState("");
 
@@ -27,7 +29,8 @@ function Login() {
     if (condition) setNationalNumber(e.target.value);
   }
   function handleOtpChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const condition = e.target.value.length <= 6;
+    const condition =
+      e.target.value.length <= 6 && isStringAllNumbers(e.target.value);
     if (condition) setOtp(e.target.value);
   }
 
@@ -38,7 +41,7 @@ function Login() {
       </Typography>
       <Stack spacing={2}>
         <TextField
-          disabled={visible}
+          disabled={state !== "hide"}
           value={nationalNumber}
           onChange={handleNationalIdChange}
           name="nationalId"
@@ -48,7 +51,7 @@ function Login() {
           sx={{
             transition: "500ms",
             // py: 1,
-            ...(visible
+            ...(state === "show"
               ? {
                   maxHeight: "100px",
                   opacity: 1,
@@ -72,17 +75,31 @@ function Login() {
             <Button>اعد الارسال</Button>
           </Typography>
         </Stack>
-        <Button
-          variant="contained"
-          size="large"
-          onClick={() => {
-            setTimeout(() => {
-              setVisible(!visible);
-            }, 500);
-          }}
-        >
-          تسجيل الدخول
-        </Button>
+        {state === "loading" ? (
+          <LoadingButton
+            size="large"
+            loading
+            loadingPosition="start"
+            startIcon={<SaveIcon />}
+            variant="outlined"
+          >
+            تسجيل الدخول
+          </LoadingButton>
+        ) : (
+          <Button
+            variant="contained"
+            size="large"
+            onClick={() => {
+              const last = state.toString();
+              setState("loading");
+              setTimeout(() => {
+                setState(last === "show" ? "hide" : "show");
+              }, 1500);
+            }}
+          >
+            تسجيل الدخول
+          </Button>
+        )}
       </Stack>
     </Stack>
   );

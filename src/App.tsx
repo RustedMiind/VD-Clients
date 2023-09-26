@@ -5,6 +5,8 @@ import { Routes, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material";
 import LoginLayout from "./layouts/login-layout/LoginLayout";
 import Handler from "./layouts/login-layout/steps/Handler";
+import type {} from '@mui/lab/themeAugmentation';
+import ProtectedComponent from "./components/ProtectedComponent";
 
 const theme = createTheme({
   direction: "rtl",
@@ -57,7 +59,14 @@ function App() {
     <ThemeProvider theme={theme}>
       <Stack className="App">
         <Routes>
-          <Route path="/" element={<>Main Page</>} />
+          <Route
+            path="/*"
+            element={
+              <ProtectedComponent>
+                <Routes>Hello</Routes>
+              </ProtectedComponent>
+            }
+          />
           <Route path="/auth/*" element={<LoginLayout />} />
         </Routes>
       </Stack>
