@@ -2,11 +2,26 @@ import Stack from "@mui/material/Stack";
 import "./assets/fonts/include.scss";
 import "./App.scss";
 import { Routes, Route } from "react-router-dom";
-import { ThemeProvider, createTheme } from "@mui/material";
+import {
+  Backdrop,
+  Button,
+  CircularProgress,
+  ThemeProvider,
+  Typography,
+  createTheme,
+} from "@mui/material";
 import LoginLayout from "./layouts/login-layout/LoginLayout";
 import Handler from "./layouts/login-layout/steps/Handler";
-import type {} from '@mui/lab/themeAugmentation';
+import { useDispatch, useSelector } from "react-redux";
+import type {} from "@mui/lab/themeAugmentation";
 import ProtectedComponent from "./components/ProtectedComponent";
+import { useEffect } from "react";
+import { checkUser } from "./redux/actions/userActions";
+import {
+  UserStateType,
+  UserType,
+  setUserError,
+} from "./redux/reducers/userReducer";
 
 const theme = createTheme({
   direction: "rtl",
@@ -55,15 +70,52 @@ const theme = createTheme({
 });
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    checkUser(dispatch).then(console.log).catch(console.log);
+  }, []);
+
+  const user = useSelector((state: { user: UserStateType }) => state.user);
+  console.log(user);
+
   return (
     <ThemeProvider theme={theme}>
       <Stack className="App">
+        <Backdrop
+          sx={{
+            color: "primary.main",
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+            backgroundColor: "white",
+          }}
+          open={user.user === "loading"}
+          // onClick={handleClose}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
         <Routes>
           <Route
             path="/*"
             element={
               <ProtectedComponent>
-                <Routes>Hello</Routes>
+                <>
+                  {typeof user.user === "object" && (
+                    <>
+                      <Typography variant="h4">
+                        مرحبا بك يا {user.user.name}
+                      </Typography>
+                      <Button
+                        onClick={() => {
+                          dispatch(setUserError());
+                        }}
+                      >
+                        تسجيل الخروج
+                      </Button>
+                    </>
+                  )}
+                  <Typography variant="h4">
+                    هنا سوف يكون صفحة طلب التصحيح , تحت الانشاء
+                  </Typography>
+                </>
               </ProtectedComponent>
             }
           />

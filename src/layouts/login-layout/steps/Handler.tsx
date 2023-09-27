@@ -1,5 +1,5 @@
 import { Stack, Typography } from "@mui/material";
-import Login from "./Login";
+import Login from "./Login/Login";
 
 function Handler() {
   return (

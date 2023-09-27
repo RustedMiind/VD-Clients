@@ -3,7 +3,7 @@ import LoginHeader from "./components/LoginHeader";
 import LoginFooter from "./components/LoginFooter";
 import bg from "../../assets/images/login-bg.png";
 import { Routes, Route } from "react-router-dom";
-import Login from "./steps/Login";
+import Login from "./steps/Login/Login";
 import Handler from "./steps/Handler";
 import ChooseService from "./steps/ChooseService";
 

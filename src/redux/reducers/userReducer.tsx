@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { setCookie } from "../../functions/cookies";
 
 export type UserStateType = {
   user: UserType | "error" | "loading";
@@ -13,6 +14,7 @@ export const userSlice = createSlice({
       return { user: action.payload.user };
     },
     setUserError: (): UserStateType => {
+      setCookie("token", "", 0.0001);
       return { user: "error" };
     },
     setUserLoading: (): UserStateType => {
@@ -21,16 +23,24 @@ export const userSlice = createSlice({
   },
 });
 
+export type UserResponseType = {
+  client: UserType;
+  token: string;
+};
+
 export type UserType = {
   id: number;
   name: string;
-  title: string;
-  description: string;
-  link: string | null;
-  details: string | null;
-  image: string;
-  category_id: number;
-  order_id: number;
+  phone: string;
+  email: string;
+  type: "individual";
+  image: null | string;
+  card_id: string;
+  card_image: string;
+  status: null;
+  letter_head: null;
+  branch_id: number;
+  branch: null;
 };
 
 export const initialService: UserStateType = { user: "loading" };
