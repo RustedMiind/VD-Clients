@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { setCookie } from "../../functions/cookies";
 
 export type UserStateType = {
-  user: UserType | "error" | "loading";
+  user: UserType | "error" | "loading" | "unkown";
 };
 
 const initialState: UserStateType = { user: "loading" };
@@ -19,6 +19,9 @@ export const userSlice = createSlice({
     },
     setUserLoading: (): UserStateType => {
       return { user: "loading" };
+    },
+    setUserUnkown: (): UserStateType => {
+      return { user: "unkown" };
     },
   },
 });
@@ -43,9 +46,10 @@ export type UserType = {
   branch: null;
 };
 
-export const initialService: UserStateType = { user: "loading" };
+export const initialService: UserStateType = { user: "unkown" };
 
 // export type userType = ServiceType[] | "error" | "loading";
 
-export const { setuser, setUserLoading, setUserError } = userSlice.actions;
+export const { setuser, setUserLoading, setUserError, setUserUnkown } =
+  userSlice.actions;
 export default userSlice.reducer;

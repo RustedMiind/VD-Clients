@@ -28,6 +28,8 @@ function OtpInputContainer(props: PropsType) {
         onChange={props.onChange}
         name="nationalId"
         label="رقم التفعيل المرسل علي الهاتف"
+        error={!!props.error}
+        helperText={props.error}
       />
       <Typography>
         لم يصلك كود الدخول؟
@@ -41,6 +43,7 @@ type PropsType = {
   current: boolean;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error: string;
 };
 
 export default OtpInputContainer;

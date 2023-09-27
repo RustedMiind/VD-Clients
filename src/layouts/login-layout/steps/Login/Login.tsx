@@ -13,11 +13,54 @@ import NationalIdInput from "./components/NationalIdInput";
 import OtpInputContainer from "./components/OtpInputContainer";
 
 function Login() {
-  const [state, setState] = useState<"show" | "loading" | "hide">("hide");
+  const [state, setState] = useState<
+    "show" | "loading-only" | "hide" | "loading"
+  >("hide");
   const [nationalNumber, setNationalNumber] = useState("");
   const [error, setError] = useState("");
+  const [otpError, setOtpError] = useState("");
   const [otp, setOtp] = useState("");
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+  const user = useSelector((state: { user: UserStateType }) => state.user);
+  const nationalNumberSubmit = function () {
+    setState("loading");
+    axios
+      .post(api("check"), {
+        token: "token",
+        imei: "1423425",
+        device_type: "ios",
+        id: nationalNumber,
+        type: "individual",
+      })
+      .then(() => setState("show"))
+      .catch((err) => {
+        setState("hide");
+        console.log("Raw Err", err);
+        setError(err.response.data.message.message);
+      });
+  };
+  const otpSubmit = function () {
+    setState("loading-only");
+    requestSetUser(dispatch, {
+      otp,
+      token: "token",
+      imei: "1423425",
+      device_type: "ios",
+      id: parseInt(nationalNumber),
+      type: "individual",
+    })
+      .then((res) => {
+        setState("show");
+        console.log("response", res);
+      })
+      .catch((err) => {
+        setState("show");
+        console.log(err);
+        setOtpError(err.response.data.message);
+      });
+  };
 
   function handleNationalIdChange(e: React.ChangeEvent<HTMLInputElement>) {
     const condition = isStringAllNumbers(e.target.value);
@@ -28,9 +71,13 @@ function Login() {
       e.target.value.length <= 6 && isStringAllNumbers(e.target.value);
     if (condition) setOtp(e.target.value);
   }
+  function submitHandler(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError("");
+    if (state === "hide") nationalNumberSubmit();
+    else if (state === "show") otpSubmit();
+  }
 
-  const navigate = useNavigate();
-  const user = useSelector((state: { user: UserStateType }) => state.user);
   useEffect(() => {
     if (typeof user.user !== "string") {
       navigate("/auth/service");
@@ -38,47 +85,7 @@ function Login() {
   }, [user, navigate]);
 
   return (
-    <Stack
-      width={"100%"}
-      component={"form"}
-      onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setError("");
-        setState("loading");
-        if (state === "hide") {
-          axios
-            .post(api("check"), {
-              token: "token",
-              imei: "1423425",
-              device_type: "ios",
-              id: nationalNumber,
-              type: "individual",
-            })
-            .then(() => setState("show"))
-            .catch((err) => {
-              setState("hide");
-              console.log("Raw Err", err);
-              setError(err.response.data.message.message);
-            });
-        } else if (state === "show") {
-          requestSetUser(dispatch, {
-            otp,
-            token: "token",
-            imei: "1423425",
-            device_type: "ios",
-            id: parseInt(nationalNumber),
-            type: "individual",
-          })
-            .then((res) => {
-              console.log("response", res);
-            })
-            .catch((err) => {
-              console.log(err);
-              setError(err.data.message);
-            });
-        }
-      }}
-    >
+    <Stack width={"100%"} component={"form"} onSubmit={submitHandler}>
       <Typography sx={{ mb: 3 }} variant="h5">
         تسجيل الدخول
       </Typography>
@@ -95,10 +102,11 @@ function Login() {
           {...{
             value: otp,
             onChange: handleOtpChange,
-            current: state === "show",
+            current: state === "show" || state === "loading-only",
+            error: otpError,
           }}
         />
-        {state === "loading" ? (
+        {state === "loading" || state === "loading-only" ? (
           <LoadingButton
             size="large"
             loading

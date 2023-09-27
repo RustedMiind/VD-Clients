@@ -87,10 +87,10 @@ function App() {
             zIndex: (theme) => theme.zIndex.drawer + 1,
             backgroundColor: "white",
           }}
-          open={user.user === "loading"}
+          open={user.user === "unkown"}
           // onClick={handleClose}
         >
-          <CircularProgress color="inherit" />
+          <CircularProgress size={"80px"} color="primary" />
         </Backdrop>
         <Routes>
           <Route

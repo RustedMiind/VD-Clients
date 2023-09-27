@@ -7,6 +7,7 @@ import {
   UserType,
   setUserError,
   setUserLoading,
+  setUserUnkown,
   setuser,
 } from "../reducers/userReducer";
 import { getCookie, setCookie } from "../../functions/cookies";
@@ -33,7 +34,7 @@ export function requestSetUser(dispatch: Dispatch<AnyAction>, data: ReqType) {
     axios
       .post<ApiResponse<UserResponseType>>(api("confirm"), data)
       .then((res) => {
-        console.log("a7a", res.data.data);
+        console.log("test", res.data.data);
         dispatch(setuser({ user: res.data.data.client }));
         resolve(res);
         setCookie("token", res.data.data.token, 10);
@@ -46,8 +47,8 @@ export function requestSetUser(dispatch: Dispatch<AnyAction>, data: ReqType) {
 }
 export function checkUser(dispatch: Dispatch<AnyAction>) {
   return new Promise((resolve, reject) => {
+    dispatch(setUserUnkown());
     if (token()) {
-      dispatch(setUserLoading());
       axios
         .post<ApiResponse<UserType>>(api("client/user"))
         .then((res) => {
