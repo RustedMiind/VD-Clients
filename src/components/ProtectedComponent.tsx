@@ -5,8 +5,12 @@ import { UserStateType } from "../redux/reducers/userReducer";
 
 function ProtectedComponent(props: PropsType): JSX.Element | null {
   const user = useSelector((state: { user: UserStateType }) => state.user);
+  // use in production mode
+  // const condition = user.user === "error";
 
-  const condition = user.user === "error";
+  // use in development mode
+  const condition = false;
+
   const navigate = useNavigate();
   useEffect(() => {
     if (condition) {

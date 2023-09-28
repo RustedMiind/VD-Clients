@@ -22,6 +22,7 @@ import {
   UserType,
   setUserError,
 } from "./redux/reducers/userReducer";
+import CreateRequestLayout from "./layouts/create-request-layout/CreateRequestLayout";
 
 const theme = createTheme({
   direction: "rtl",
@@ -32,7 +33,7 @@ const theme = createTheme({
       contrastText: "#FFFFFF",
     },
     secondary: {
-      main: "#F19B02",
+      main: "#004693",
     },
     background: {
       paper: "#FFFFFF",
@@ -96,27 +97,29 @@ function App() {
           <Route
             path="/*"
             element={
-              <ProtectedComponent>
-                <>
-                  {typeof user.user === "object" && (
-                    <>
-                      <Typography variant="h4">
-                        مرحبا بك يا {user.user.name}
-                      </Typography>
-                      <Button
-                        onClick={() => {
-                          dispatch(setUserError());
-                        }}
-                      >
-                        تسجيل الخروج
-                      </Button>
-                    </>
-                  )}
-                  <Typography variant="h4">
-                    هنا سوف يكون صفحة طلب التصحيح , تحت الانشاء
-                  </Typography>
-                </>
-              </ProtectedComponent>
+              <CreateRequestLayout>
+                <ProtectedComponent>
+                  <>
+                    {typeof user.user === "object" && (
+                      <>
+                        <Typography variant="h4">
+                          مرحبا بك يا {user.user.name}
+                        </Typography>
+                        <Button
+                          onClick={() => {
+                            dispatch(setUserError());
+                          }}
+                        >
+                          تسجيل الخروج
+                        </Button>
+                      </>
+                    )}
+                    <Typography variant="h4">
+                      هنا سوف يكون صفحة طلب التصحيح , تحت الانشاء
+                    </Typography>
+                  </>
+                </ProtectedComponent>
+              </CreateRequestLayout>
             }
           />
           <Route path="/auth/*" element={<LoginLayout />} />
