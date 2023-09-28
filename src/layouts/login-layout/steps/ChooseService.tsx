@@ -24,7 +24,7 @@ function ChooseService() {
   };
 
   const handleConfirmDialog = () => {
-    navigate("/");
+    navigate("/request/create");
   };
 
   return (

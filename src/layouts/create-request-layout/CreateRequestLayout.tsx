@@ -1,7 +1,10 @@
 import { Drawer, Stack, styled } from "@mui/material";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react";
+import CustomizedSteppers from "./components/Stepper";
+import CreateRequest from "./pages/CreateRequest";
 export const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -28,7 +31,12 @@ function CreateRequestLayout(props: PropsType) {
         open={openSidebarHandler}
       />
       <DrawerHeader />
-      {props.children}
+      <Stack sx={{ p: { xs: 4, xl: "8" } }}>
+        <Routes>
+          <Route path="/request/create" element={<CreateRequest />} />
+          <Route path="*" element={<Navigate to={"auth/service"} />} />
+        </Routes>
+      </Stack>
     </Stack>
   );
 }
