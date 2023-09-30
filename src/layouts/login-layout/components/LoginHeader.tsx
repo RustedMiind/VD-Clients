@@ -44,7 +44,13 @@ function LoginHeader() {
         }}
       >
         <LogoContainer logo={logo} />
-        <Typography variant="h2">بوابة جدة</Typography>
+        <Typography
+          variant="h2"
+          sx={{ fontSize: { xs: "32px", md: "48px" } }}
+          textAlign={"center"}
+        >
+          بوابة جدة
+        </Typography>
         <LogoContainer logo={logo2} />
       </Stack>
     </Stack>

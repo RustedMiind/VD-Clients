@@ -1,13 +1,13 @@
-import { SwipeableDrawer, Typography, Stack } from "@mui/material";
+import { Drawer, Typography, Stack } from "@mui/material";
 import logo from "../../../assets/images/logo-vision.png";
 
 function Sidebar(props: PropsType) {
   return (
-    <SwipeableDrawer
+    <Drawer
       anchor={"left"}
       open={props.isOpen}
       onClose={props.close}
-      onOpen={props.open}
+      onClick={props.close}
     >
       <Stack
         sx={{ px: 2, py: 4 }}
@@ -23,7 +23,7 @@ function Sidebar(props: PropsType) {
           </Typography>
         </Stack>
       </Stack>
-    </SwipeableDrawer>
+    </Drawer>
   );
 }
 

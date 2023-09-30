@@ -21,7 +21,7 @@ function LoginFooter() {
           flexDirection: "column-reverse",
         }}
       >
-        <Typography color={"white"}>
+        <Typography color={"white"} textAlign={"center"}>
           جميع الحقوق محفوظة - مكتب ابعاد الرؤية للاستشارات الهندسية
         </Typography>
       </Stack>

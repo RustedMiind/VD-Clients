@@ -6,17 +6,17 @@ import { UserStateType } from "../redux/reducers/userReducer";
 function ProtectedComponent(props: PropsType): JSX.Element | null {
   const user = useSelector((state: { user: UserStateType }) => state.user);
   // use in production mode
-  // const condition = user.user === "error";
+  const redirectCondition = user.user === "error";
 
   // use in development mode
-  const condition = false;
+  // const redirectCondition = false;
 
   const navigate = useNavigate();
   useEffect(() => {
-    if (condition) {
+    if (redirectCondition) {
       navigate(props.redirect || "/auth/login");
     }
-  });
+  }, [redirectCondition, user.user]);
   return props.children;
 }
 

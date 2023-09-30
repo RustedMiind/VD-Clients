@@ -12,6 +12,8 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import { useDispatch } from "react-redux";
+import { setUserError } from "../../../redux/reducers/userReducer";
 
 interface PropsType {
   openSidebar: () => void;
@@ -21,6 +23,7 @@ const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Navbar(props: PropsType) {
+  const dispatch = useDispatch();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -168,11 +171,14 @@ function Navbar(props: PropsType) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem
+                onClick={() => {
+                  console.log("Logged Out");
+                  dispatch(setUserError());
+                }}
+              >
+                <Typography textAlign="center">تسجيل الخروج</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

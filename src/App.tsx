@@ -81,7 +81,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Stack className="App">
+      <Stack className="App" sx={{ maxWidth: "100vw", overflowX: "hidden" }}>
         <Backdrop
           sx={{
             color: "primary.main",
@@ -94,11 +94,12 @@ function App() {
           <CircularProgress size={"80px"} color="primary" />
         </Backdrop>
         <Routes>
+          <Route path="/auth/*" element={<LoginLayout />} />
           <Route
             path="/*"
             element={
-              <CreateRequestLayout>
-                <ProtectedComponent>
+              <ProtectedComponent>
+                <CreateRequestLayout>
                   <>
                     {typeof user.user === "object" && (
                       <>
@@ -118,11 +119,10 @@ function App() {
                       هنا سوف يكون صفحة طلب التصحيح , تحت الانشاء
                     </Typography>
                   </>
-                </ProtectedComponent>
-              </CreateRequestLayout>
+                </CreateRequestLayout>
+              </ProtectedComponent>
             }
           />
-          <Route path="/auth/*" element={<LoginLayout />} />
         </Routes>
       </Stack>
     </ThemeProvider>
